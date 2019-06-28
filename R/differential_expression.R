@@ -117,6 +117,7 @@ FindAllMarkers <- function(
             idents.all[i]
           },
           features = features,
+          add.metadata = add.metadata,
           logfc.threshold = logfc.threshold,
           test.use = test.use,
           slot = slot,
@@ -806,6 +807,7 @@ FindMarkers.Seurat <- function(
     metadata.vals <- FetchData(object = object, vars = add.metadata)
     data.use <- rbind(data.use, t(metadata.vals))
   }
+  
   de.results <- FindMarkers(
     object = data.use,
     slot = data.slot,
