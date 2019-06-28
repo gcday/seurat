@@ -20,11 +20,11 @@ FindMarkers(object, ...)
 \method{FindMarkers}{Seurat}(object, ident.1 = NULL, ident.2 = NULL,
   group.by = NULL, subset.ident = NULL, assay = NULL,
   slot = "data", reduction = NULL, features = NULL,
-  logfc.threshold = 0.25, test.use = "wilcox", min.pct = 0.1,
-  min.diff.pct = -Inf, verbose = TRUE, only.pos = FALSE,
-  max.cells.per.ident = Inf, random.seed = 1, latent.vars = NULL,
-  min.cells.feature = 3, min.cells.group = 3, pseudocount.use = 1,
-  ...)
+  add.metadata = NULL, logfc.threshold = 0.25, test.use = "wilcox",
+  min.pct = 0.1, min.diff.pct = -Inf, verbose = TRUE,
+  only.pos = FALSE, max.cells.per.ident = Inf, random.seed = 1,
+  latent.vars = NULL, min.cells.feature = 3, min.cells.group = 3,
+  pseudocount.use = 1, ...)
 }
 \arguments{
 \item{object}{An object}
@@ -131,6 +131,8 @@ use all other cells for comparison; if an object of class \code{phylo} or
 \item{subset.ident}{Subset a particular identity class prior to regrouping. Only relevant if group.by is set (see example)}
 
 \item{assay}{Assay to use in differential expression testing}
+
+\item{add.metadata}{Names of variables in metadata to include as features in DE testing (passed to \code{\link{FetchData}})}
 }
 \value{
 data.frame with a ranked list of putative markers as rows, and associated

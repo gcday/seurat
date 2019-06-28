@@ -45,6 +45,7 @@ FindAllMarkers <- function(
   object,
   assay = NULL,
   features = NULL,
+  add.metadata = NULL,
   logfc.threshold = 0.25,
   test.use = 'wilcox',
   slot = 'data',
@@ -693,6 +694,7 @@ FindMarkers.default <- function(
 #' @param assay Assay to use in differential expression testing
 #' @param slot Slot to pull data from; note that if \code{test.use} is "negbinom", "poisson", or "DESeq2",
 #' \code{slot} will be set to "counts"
+#' @param add.metadata Names of variables in metadata to include as features in DE testing (passed to \code{\link{FetchData}})
 #'
 #' @importFrom methods is
 #'
@@ -710,6 +712,7 @@ FindMarkers.Seurat <- function(
   slot = 'data',
   reduction = NULL,
   features = NULL,
+  add.metadata = NULL,
   logfc.threshold = 0.25,
   test.use = "wilcox",
   min.pct = 0.1,
@@ -799,6 +802,10 @@ FindMarkers.Seurat <- function(
     'scale.data' = GetAssayData(object = object[[assay]], slot = "counts"),
     numeric()
   )
+  if (!is.null(add.metadata)) {
+    metadata.vals <- FetchData(object = object, vars = add.metadata)
+    data.use <- rbind(data.use, t(metadata.vals))
+  }
   de.results <- FindMarkers(
     object = data.use,
     slot = data.slot,

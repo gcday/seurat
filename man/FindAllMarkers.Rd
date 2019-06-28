@@ -6,11 +6,12 @@
 \title{Gene expression markers for all identity classes}
 \usage{
 FindAllMarkers(object, assay = NULL, features = NULL,
-  logfc.threshold = 0.25, test.use = "wilcox", slot = "data",
-  min.pct = 0.1, min.diff.pct = -Inf, node = NULL, verbose = TRUE,
-  only.pos = FALSE, max.cells.per.ident = Inf, random.seed = 1,
-  latent.vars = NULL, min.cells.feature = 3, min.cells.group = 3,
-  pseudocount.use = 1, return.thresh = 0.01, ...)
+  add.metadata = NULL, logfc.threshold = 0.25, test.use = "wilcox",
+  slot = "data", min.pct = 0.1, min.diff.pct = -Inf, node = NULL,
+  verbose = TRUE, only.pos = FALSE, max.cells.per.ident = Inf,
+  random.seed = 1, latent.vars = NULL, min.cells.feature = 3,
+  min.cells.group = 3, pseudocount.use = 1, return.thresh = 0.01,
+  ...)
 }
 \arguments{
 \item{object}{An object}
@@ -18,6 +19,8 @@ FindAllMarkers(object, assay = NULL, features = NULL,
 \item{assay}{Assay to use in differential expression testing}
 
 \item{features}{Genes to test. Default is to use all genes}
+
+\item{add.metadata}{Names of variables in metadata to include as features in DE testing (passed to \code{\link{FetchData}})}
 
 \item{logfc.threshold}{Limit testing to genes which show, on average, at least
 X-fold difference (log-scale) between the two groups of cells. Default is 0.25
