@@ -1550,11 +1550,36 @@ WilcoxDETest <- function(
     yes = pbsapply,
     no = future_sapply
   )
-  p_val <- my.sapply(
-    X = 1:nrow(x = data.use),
-    FUN = function(x) {
-      return(wilcox.test(data.use[x, ] ~ group.info[, "group"], ...)$p.value)
-    }
-  )
+  res1 <- microbenchmark::microbenchmark(p_val <- c(unlist(furrr::future_map(.x = 1:nrow(x = data.use),
+                                                                             .f = function(x) {
+                                                                               return(wilcox.test(data.use[x, ] ~ group.info[, "group"], ...)$p.value)
+                                                                             },
+                                                                             .progress = verbose))), times = 25)
+  res2 <- microbenchmark::microbenchmark(p_val <- my.sapply(
+      X = 1:nrow(x = data.use),
+      FUN = function(x) {
+        return(wilcox.test(data.use[x, ] ~ group.info[, "group"], ...)$p.value)
+      }
+    ), times = 25)
+  print(res1)
+  print(res2)
+  p_val <- c(unlist(furrr::future_map(.x = 1:nrow(x = data.use),
+                             .f = function(x) {
+                               return(wilcox.test(data.use[x, ] ~ group.info[, "group"], ...)$p.value)
+                             },
+                             .progress = verbose)))
+  # p_val2 <- my.sapply(
+  #   X = 1:nrow(x = data.use),
+  #   FUN = function(x) {
+  #     return(wilcox.test(data.use[x, ] ~ group.info[, "group"], ...)$p.value)
+  #   }
+  # )
+  # p_val3 <- future.apply::future_lapply(
+  #   X = 1:nrow(x = data.use),
+  #   FUN = function(x) {
+  #     return(wilcox.test(data.use[x, ] ~ group.info[, "group"], ...)$p.value)
+  #   }
+  # )
+  # message(length(p_val))
   return(data.frame(p_val, row.names = rownames(x = data.use)))
 }
